@@ -12,3 +12,4 @@ c:\Users\jakub\Desktop\LibrarySystemApp\obj\Debug\net9.0\refint\LibrarySystemApp
 c:\Users\jakub\Desktop\LibrarySystemApp\obj\Debug\net9.0\LibrarySystemApp.pdb
 C:\Users\jakub\Desktop\LibrarySystemApp\obj\Debug\net9.0\LibrarySystemApp.genruntimeconfig.cache
 C:\Users\jakub\Desktop\LibrarySystemApp\obj\Debug\net9.0\ref\LibrarySystemApp.dll
+c:\Users\jakub\Desktop\LibrarySystemApp\obj\Debug\net9.0\LibrarySystemApp.sourcelink.json
