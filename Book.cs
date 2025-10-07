@@ -14,8 +14,18 @@ public class Book
         Year = year;
     }
 
-    public override string ToString()
+    public string GetTitle()
     {
-        return $"{Title} by {Author} from {Year}";
+        return Title;
+    }
+
+    public string GetAuthor()
+    {
+        return Author;
+    }
+
+    public int GetYear()
+    {
+        return Year;
     }
 }

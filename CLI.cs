@@ -26,9 +26,10 @@ class CLI
                 string title = Console.ReadLine();
                 Console.Write("Enter author: ");
                 string author = Console.ReadLine();
-                Console.Write("Enter year");
+                Console.Write("Enter year: " );
                 int year = int.Parse(Console.ReadLine());
                 library.AddBook(new Book(title, author, year));
+                library.SaveBooksToFile("books.csv");
                 Console.WriteLine("Successfully added a book!");
 
             }
