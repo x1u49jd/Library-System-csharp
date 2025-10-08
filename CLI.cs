@@ -10,7 +10,8 @@ class CLI
 
             Console.WriteLine("1. List Books");
             Console.WriteLine("2. Add Book");
-            Console.WriteLine("3. Exit");
+            Console.WriteLine("3. Remove Book");
+            Console.WriteLine("4. Exit");
             Console.Write("Choose an option: ");
             string choice = Console.ReadLine().Trim();
 
@@ -32,6 +33,17 @@ class CLI
 
             }
             else if (choice == "3")
+            {
+                Console.Write("Enter author: ");
+                string author = Console.ReadLine();
+                Console.Write("Enter title: ");
+                string title = Console.ReadLine();
+                Console.Write("Enter year: ");
+                int year = int.Parse(Console.ReadLine());
+                library.RemoveBook(new Book(author, title, year));
+                library.SaveBooksToFile("books.csv");
+            }
+            else if (choice == "4")
             {
                 break;
             }

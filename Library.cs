@@ -13,6 +13,25 @@ public class Library
         books.Add(book);
     }
 
+    public void RemoveBook(Book book)
+    {
+        bool found = false;
+
+        for (int i = 0; i < books.Count; i++)
+        {
+            if (books[i].Author == book.Author &&
+                books[i].Title == book.Title &&
+                books[i].Year == book.Year)
+            {
+                found = true;
+                books.RemoveAt(i);
+                break;
+            }
+        }
+
+        Console.WriteLine(found ? "Book successfully removed!" : "Book not found!");
+    }
+
     public void ListBooks()
     {
         foreach (Book book in books)
