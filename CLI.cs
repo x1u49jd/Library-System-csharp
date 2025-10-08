@@ -3,9 +3,7 @@ class CLI
     static void Main(string[] args)
     {
         Library library = new Library();
-        library.AddBook(new Book("Kull: Exile of Atlantis", "Robert E. Howard", 1967));
-        library.AddBook(new Book("Hobbit", "J.R.R Tolkien", 1937));
-        library.AddBook(new Book("Pride and Prejudice", "Jane Austen", 1813));
+        library.LoadBooksFromFile("books.csv");
 
         while (true)
         {
@@ -22,13 +20,13 @@ class CLI
             }
             else if (choice == "2")
             {
-                Console.Write("Enter title: ");
-                string title = Console.ReadLine();
                 Console.Write("Enter author: ");
                 string author = Console.ReadLine();
-                Console.Write("Enter year: " );
+                Console.Write("Enter title: ");
+                string title = Console.ReadLine();
+                Console.Write("Enter year: ");
                 int year = int.Parse(Console.ReadLine());
-                library.AddBook(new Book(title, author, year));
+                library.AddBook(new Book(author, title, year));
                 library.SaveBooksToFile("books.csv");
                 Console.WriteLine("Successfully added a book!");
 
