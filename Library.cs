@@ -3,93 +3,96 @@ using System.Linq.Expressions;
 using System.Security.Cryptography;
 using System.Threading.Tasks.Dataflow;
 
-public class Library
+namespace LibrarySystemApp 
 {
-    private List<Book> books = new List<Book>();
-
-    // public method to add books to the list (PascalCase)
-    public void AddBook(Book book)
+    public class Library
     {
-        books.Add(book);
-    }
+        private List<Book> books = new List<Book>();
 
-    public void RemoveBook(Book book)
-    {
-        bool found = false;
-
-        for (int i = 0; i < books.Count; i++)
+        // public method to add books to the list (PascalCase)
+        public void AddBook(Book book)
         {
-            if (books[i].Author == book.Author &&
-                books[i].Title == book.Title &&
-                books[i].Year == book.Year)
-            {
-                found = true;
-                books.RemoveAt(i);
-                break;
-            }
+            books.Add(book);
         }
 
-        Console.WriteLine(found ? "Book successfully removed!" : "Book not found!");
-    }
-
-    public void ListBooks()
-    {
-        foreach (Book book in books)
+        public void RemoveBook(Book book)
         {
-            Console.WriteLine($"{book.GetAuthor()}, {book.GetTitle()}, {book.GetYear()}");
-        }
-    }
+            bool found = false;
 
-    public void SaveBooksToFile(string filename)
-    {
-        try
-        {
-            using (StreamWriter writer = new StreamWriter(filename))
+            for (int i = 0; i < books.Count; i++)
             {
-                foreach (Book book in books)
+                if (books[i].Author == book.Author &&
+                    books[i].Title == book.Title &&
+                    books[i].Year == book.Year)
                 {
-                    writer.WriteLine($"{book.GetAuthor()}, {book.GetTitle()}, {book.GetYear()}");
-                    Console.WriteLine($"Accounts saved to {filename}");
+                    found = true;
+                    books.RemoveAt(i);
+                    break;
                 }
             }
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine($"An error occured while saving accounts to file : {e.Message}");
-        }
-    }
 
-    public void LoadBooksFromFile(string filename)
-    {
-        try
+            Console.WriteLine(found ? "Book successfully removed!" : "Book not found!");
+        }
+
+        public void ListBooks()
         {
-            if (File.Exists(filename))
+            foreach (Book book in books)
             {
-                using (StreamReader reader = new StreamReader(filename))
+                Console.WriteLine($"{book.GetAuthor()}, {book.GetTitle()}, {book.GetYear()}");
+            }
+        }
+
+        public void SaveBooksToFile(string filename)
+        {
+            try
+            {
+                using (StreamWriter writer = new StreamWriter(filename))
                 {
-                    string line;
-                    while ((line = reader.ReadLine()) != null)
+                    foreach (Book book in books)
                     {
-                        string[] parts = line.Split(',');
-                        if (parts.Length == 3)
-                        {
-                            string author = parts[0].Trim();
-                            string title = parts[1].Trim();
-                            int year = int.Parse(parts[2].Trim());
-                            books.Add(new Book(author, title, year));
-                        }
+                        writer.WriteLine($"{book.GetAuthor()}, {book.GetTitle()}, {book.GetYear()}");
+                        Console.WriteLine($"Accounts saved to {filename}");
                     }
                 }
-                Console.WriteLine($"Books loaded from {filename}");
             }
-            else
+            catch (Exception e)
             {
-                Console.WriteLine($"File {filename} does not exist. Starting with an empty library.");
+                Console.WriteLine($"An error occured while saving accounts to file : {e.Message}");
             }
         }
-        catch (Exception e)
+
+        public void LoadBooksFromFile(string filename)
         {
-            Console.WriteLine($"An error occured while loading books from file : {e.Message}");
+            try
+            {
+                if (File.Exists(filename))
+                {
+                    using (StreamReader reader = new StreamReader(filename))
+                    {
+                        string line;
+                        while ((line = reader.ReadLine()) != null)
+                        {
+                            string[] parts = line.Split(',');
+                            if (parts.Length == 3)
+                            {
+                                string author = parts[0].Trim();
+                                string title = parts[1].Trim();
+                                int year = int.Parse(parts[2].Trim());
+                                books.Add(new Book(author, title, year));
+                            }
+                        }
+                    }
+                    Console.WriteLine($"Books loaded from {filename}");
+                }
+                else
+                {
+                    Console.WriteLine($"File {filename} does not exist. Starting with an empty library.");
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"An error occured while loading books from file : {e.Message}");
+            }
         }
     }
 }
