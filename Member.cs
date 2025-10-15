@@ -18,5 +18,30 @@ namespace LibrarySystemApp
             Password = password;
             JoinedDate = joinedDate;
         }
+
+        public int GetId()
+        {
+            return Id;
+        }
+
+        public string GetFirstName()
+        {
+            return FirstName;
+        }
+
+        public string GetSurname()
+        {
+            return Surname;
+        }
+
+        public string GetPassword()
+        {
+            return Password;
+        }
+
+        public DateTime GetJoinedDate()
+        {
+            return JoinedDate;
+        }
     }
 }

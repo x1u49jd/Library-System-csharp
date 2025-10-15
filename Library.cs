@@ -9,6 +9,8 @@ namespace LibrarySystemApp
     {
         private List<Book> books = new List<Book>();
 
+        private List<Member> members = new List<Member>();
+
         // public method to add books to the list (PascalCase)
         public void AddBook(Book book)
         {
@@ -48,9 +50,9 @@ namespace LibrarySystemApp
             {
                 using (StreamWriter writer = new StreamWriter(filename))
                 {
-                    foreach (Book book in books)
+                    foreach (Book b in books)
                     {
-                        writer.WriteLine($"{book.GetAuthor()}, {book.GetTitle()}, {book.GetYear()}");
+                        writer.WriteLine($"{b.GetAuthor()}, {b.GetTitle()}, {b.GetYear()}");
                         Console.WriteLine($"Accounts saved to {filename}");
                     }
                 }
@@ -86,13 +88,107 @@ namespace LibrarySystemApp
                 }
                 else
                 {
-                    Console.WriteLine($"File {filename} does not exist. Starting with an empty library.");
+                    Console.WriteLine($"File {filename} does not exist. Starting with an empty book list.");
                 }
             }
             catch (Exception e)
             {
                 Console.WriteLine($"An error occured while loading books from file : {e.Message}");
             }
+        }
+
+        public List<Book> GetBooks()
+        {
+            return books;
+        }
+
+        public void AddMember(Member member)
+        {
+            members.Add(member);
+        }
+
+        public void RemoveMember(Member member)
+        {
+            bool found = false;
+
+            for (int i = 0; i < members.Count; i++)
+            {
+                if (members[i].Id == member.Id)
+                {
+                    found = true;
+                    members.RemoveAt(i);
+                    break;
+                }
+            }
+
+            Console.WriteLine(found ? "Member successfully removed!" : "Member not found!");
+        }
+
+        public void ListMembers()
+        {
+            foreach (Member m in members)
+            {
+                Console.WriteLine($"{m.GetId()}, {m.GetFirstName()}, {m.GetSurname()}, {m.GetPassword()}, {m.GetJoinedDate()}");
+            }
+        }
+
+        public void SaveMembersToFile(string filename)
+        {
+            try
+            {
+                using (StreamWriter writer = new StreamWriter(filename))
+                {
+                    foreach (Member m in members)
+                    {
+                        writer.WriteLine($"{m.GetId()}, {m.GetFirstName()}, {m.GetSurname()}, {m.GetPassword()}, {m.GetJoinedDate()}");
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"An error occured while saving members to file : {e.Message}");
+            }
+        }
+
+        public void LoadMembersFromFile(string filename)
+        {
+            try
+            {
+                if (File.Exists(filename))
+                {
+                    using (StreamReader reader = new StreamReader(filename))
+                    {
+                        string line;
+                        while ((line = reader.ReadLine()) != null)
+                        {
+                            string[] parts = line.Split(',');
+                            if (parts.Length == 5)
+                            {
+                                int id = int.Parse(parts[0].Trim());
+                                string firstName = parts[1].Trim();
+                                string surname = parts[2].Trim();
+                                string password = parts[3].Trim();
+                                DateTime joinedDate = DateTime.Parse(parts[4].Trim());
+                                members.Add(new Member(id, firstName, surname, password, joinedDate));
+                            }
+                        }
+                    }
+                    Console.WriteLine($"Members loaded from {filename}");
+                }
+                else
+                {
+                    Console.WriteLine($"File {filename} does not exist. Starting with an empty member list.");
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"An error occured while loading members from file : {e.Message}");
+            }
+        }
+
+        public List<Member> GetMembers()
+        {
+            return members;
         }
     }
 }
