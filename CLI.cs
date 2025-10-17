@@ -1,4 +1,8 @@
-namespace LibrarySystemApp {
+using System;
+using System.Collections.Generic;
+
+namespace LibrarySystemApp
+{
     class CLI
     {
         static void Main(string[] args)
@@ -9,7 +13,7 @@ namespace LibrarySystemApp {
 
             while (true)
             {
-
+                Console.WriteLine("\n--- Library System ---");
                 Console.WriteLine("1. Log in");
                 Console.WriteLine("2. Register");
                 Console.WriteLine("3. Exit");
@@ -18,57 +22,77 @@ namespace LibrarySystemApp {
 
                 if (choice == "1")
                 {
-                    Console.WriteLine("Enter Member ID: ");
-                    int id = int.Parse(Console.ReadLine());
-                    Console.WriteLine("Enter Password: ");
-                    string password = Console.ReadLine();
-
-                    foreach (Member m in library.GetMembers())
+                    Member loggedInMember = HandleLogin(library);
+                    if (loggedInMember != null)
                     {
-                        if (m.GetId() == id && m.GetPassword() == password)
-                        {
-                            Console.WriteLine($"Welcome back, {m.GetFirstName()}!");
-                            break;
-                        }
-                        else
-                        {
-                            Console.WriteLine("Invalid ID or Password. Try Again!");
-                            break;
-                        }
+                        Console.WriteLine($"Welcome back, {loggedInMember.GetFirstName()}!");
+                        MemberMenu(library, loggedInMember);
                     }
-
                 }
-                if (choice == "2")
+                else if (choice == "2")
                 {
-                    Console.WriteLine("Enter First Name: ");
-                    string name = Console.ReadLine();
-                    Console.WriteLine("Enter Surname: ");
-                    string surname = Console.ReadLine();
-                    Console.WriteLine("Enter Password: ");
-                    string password = Console.ReadLine();
-
-                    int id = new Random().Next(1000, 9999);
-                    DateTime joinedDate = DateTime.Now;
-
-                    Member member = new Member(id, name, surname, password, joinedDate);
-                    library.AddMember(member);
-                    library.SaveMembersToFile("members.csv");
-                    Console.WriteLine($"Successfully registered! Your Member ID is {id}");
+                    HandleRegistration(library);
                 }
-                if (choice == "3")
+                else if (choice == "3")
                 {
+                    Console.WriteLine("Goodbye!");
                     break;
                 }
                 else
                 {
                     Console.WriteLine("Wrong option! Try Again!");
                 }
-                
-                /*
+            }
+        }
+
+        static Member HandleLogin(Library library)
+        {
+            Console.Write("Enter Member ID: ");
+            int id = int.Parse(Console.ReadLine());
+
+            Console.Write("Enter Password: ");
+            string password = Console.ReadLine();
+
+            foreach (Member m in library.GetMembers())
+            {
+                if (m.GetId() == id && m.GetPassword() == password)
+                {
+                    return m;
+                }
+            }
+
+            Console.WriteLine("Invalid ID or Password. Try Again!");
+            return null;
+        }
+
+        static void HandleRegistration(Library library)
+        {
+            Console.Write("Enter First Name: ");
+            string name = Console.ReadLine();
+            Console.Write("Enter Surname: ");
+            string surname = Console.ReadLine();
+            Console.Write("Enter Password: ");
+            string password = Console.ReadLine();
+
+            int id = new Random().Next(1000, 9999);
+            DateTime joinedDate = DateTime.Now;
+
+            Member member = new Member(id, name, surname, password, joinedDate);
+            library.AddMember(member);
+            library.SaveMembersToFile("members.csv");
+
+            Console.WriteLine($"Successfully registered! Your Member ID is {id}");
+        }
+
+        static void MemberMenu(Library library, Member member)
+        {
+            while (true)
+            {
+                Console.WriteLine("\n--- Member Menu ---");
                 Console.WriteLine("1. List Books");
                 Console.WriteLine("2. Add Book");
                 Console.WriteLine("3. Remove Book");
-                Console.WriteLine("4. Exit");
+                Console.WriteLine("4. Log out");
                 Console.Write("Choose an option: ");
                 string choice = Console.ReadLine().Trim();
 
@@ -87,7 +111,6 @@ namespace LibrarySystemApp {
                     library.AddBook(new Book(author, title, year));
                     library.SaveBooksToFile("books.csv");
                     Console.WriteLine("Successfully added a book!");
-
                 }
                 else if (choice == "3")
                 {
@@ -99,16 +122,17 @@ namespace LibrarySystemApp {
                     int year = int.Parse(Console.ReadLine());
                     library.RemoveBook(new Book(author, title, year));
                     library.SaveBooksToFile("books.csv");
+                    Console.WriteLine("Successfully removed a book!");
                 }
                 else if (choice == "4")
                 {
+                    Console.WriteLine("Logging out...");
                     break;
                 }
                 else
                 {
-                    Console.Write("Wrong option! Try Again!");
+                    Console.WriteLine("Wrong option! Try Again!");
                 }
-                */
             }
         }
     }
