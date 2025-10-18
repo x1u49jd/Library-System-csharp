@@ -8,15 +8,25 @@ namespace LibrarySystemApp
         public string Password { get; set; }
         public DateTime JoinedDate { get; set; }
 
+        public MembershipLevel MembershipType { get; set; }
+
+        public enum MembershipLevel
+        {
+            Member,
+            Admin
+        }
+
         public List<Book> BorrowedBooks { get; set; } = new List<Book>();
 
-        public Member(int id, string firstName, string surname, string password, DateTime joinedDate)
+        public Member(int id, string firstName, string surname, string password, DateTime joinedDate, MembershipLevel membershipType = MembershipLevel.Member)
         {
             Id = id;
             FirstName = firstName;
             Surname = surname;
             Password = password;
             JoinedDate = joinedDate;
+            MembershipType = membershipType;
+
         }
 
         public int GetId()
@@ -42,6 +52,11 @@ namespace LibrarySystemApp
         public DateTime GetJoinedDate()
         {
             return JoinedDate;
+        }
+
+        public MembershipLevel GetMembershipType()
+        {
+            return MembershipType;
         }
     }
 }

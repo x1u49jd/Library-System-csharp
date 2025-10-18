@@ -128,7 +128,7 @@ namespace LibrarySystemApp
         {
             foreach (Member m in members)
             {
-                Console.WriteLine($"{m.GetId()}, {m.GetFirstName()}, {m.GetSurname()}, {m.GetPassword()}, {m.GetJoinedDate()}");
+                Console.WriteLine($"{m.GetId()}, {m.GetFirstName()}, {m.GetSurname()}, {m.GetPassword()}, {m.GetJoinedDate()}, {m.GetMembershipType()}");
             }
         }
 
@@ -140,7 +140,7 @@ namespace LibrarySystemApp
                 {
                     foreach (Member m in members)
                     {
-                        writer.WriteLine($"{m.GetId()}, {m.GetFirstName()}, {m.GetSurname()}, {m.GetPassword()}, {m.GetJoinedDate()}");
+                        writer.WriteLine($"{m.GetId()}, {m.GetFirstName()}, {m.GetSurname()}, {m.GetPassword()}, {m.GetJoinedDate()}, {m.GetMembershipType()}");
                     }
                 }
             }
@@ -162,14 +162,15 @@ namespace LibrarySystemApp
                         while ((line = reader.ReadLine()) != null)
                         {
                             string[] parts = line.Split(',');
-                            if (parts.Length == 5)
+                            if (parts.Length == 6)
                             {
                                 int id = int.Parse(parts[0].Trim());
                                 string firstName = parts[1].Trim();
                                 string surname = parts[2].Trim();
                                 string password = parts[3].Trim();
                                 DateTime joinedDate = DateTime.Parse(parts[4].Trim());
-                                members.Add(new Member(id, firstName, surname, password, joinedDate));
+                                Member.MembershipLevel membershipType = (Member.MembershipLevel)Enum.Parse(typeof(Member.MembershipLevel), parts[5].Trim());                            
+                                members.Add(new Member(id, firstName, surname, password, joinedDate, membershipType));
                             }
                         }
                     }

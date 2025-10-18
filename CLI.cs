@@ -26,6 +26,7 @@ namespace LibrarySystemApp
                     if (loggedInMember != null)
                     {
                         Console.WriteLine($"Welcome back, {loggedInMember.GetFirstName()}!");
+                        Console.WriteLine($"Membership Type: {loggedInMember.GetMembershipType()}");
                         MemberMenu(library, loggedInMember);
                     }
                 }
@@ -74,10 +75,20 @@ namespace LibrarySystemApp
             Console.Write("Enter Password: ");
             string password = Console.ReadLine();
 
-            int id = new Random().Next(1000, 9999);
+
+            // Generate id: find the highest existing ID and add 1
+            int id = 1000;
+            foreach (Member m in library.GetMembers())
+            {
+                if (m.GetId() >= id)
+                {
+                    id = m.GetId() + 1;
+                }
+            }
+
             DateTime joinedDate = DateTime.Now;
 
-            Member member = new Member(id, name, surname, password, joinedDate);
+            Member member = new Member(id, name, surname, password, joinedDate, Member.MembershipLevel.Member);
             library.AddMember(member);
             library.SaveMembersToFile("members.csv");
 
