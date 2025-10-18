@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 namespace LibrarySystemApp
 {
@@ -95,11 +96,23 @@ namespace LibrarySystemApp
             Console.WriteLine($"Successfully registered! Your Member ID is {id}");
         }
 
+
         static void MemberMenu(Library library, Member member)
+        {
+            if (member.GetMembershipType() == Member.MembershipLevel.Admin)
+            {
+                AdminMenu(library, member);
+            }
+            else if (member.GetMembershipType() == Member.MembershipLevel.Member)
+            {
+                RegularMemberMenu(library, member);
+            }
+        }
+        static void AdminMenu(Library library, Member member)
         {
             while (true)
             {
-                Console.WriteLine("\n--- Member Menu ---");
+                Console.WriteLine("\n--- Admin Menu ---");
                 Console.WriteLine("1. List Books");
                 Console.WriteLine("2. Add Book");
                 Console.WriteLine("3. Remove Book");
@@ -143,6 +156,28 @@ namespace LibrarySystemApp
                 else
                 {
                     Console.WriteLine("Wrong option! Try Again!");
+                }
+            }
+        }
+        
+        static void RegularMemberMenu(Library library, Member member)
+        {
+            while (true)
+            {
+                Console.WriteLine("\n--- Member Menu ---");
+                Console.WriteLine("1. List Books");
+                Console.WriteLine("2. Log out");
+                Console.Write("Choose an option: ");
+                string choice = Console.ReadLine().Trim();
+
+                if (choice == "1")
+                {
+                    library.ListBooks();
+                }
+                else if (choice == "2")
+                {
+                    Console.WriteLine("Logging out...");
+                    break;
                 }
             }
         }
