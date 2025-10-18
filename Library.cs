@@ -11,6 +11,8 @@ namespace LibrarySystemApp
 
         private List<Member> members = new List<Member>();
 
+        private List<BookRequest> bookRequests = new List<BookRequest>();
+
         // public method to add books to the list (PascalCase)
         public void AddBook(Book book)
         {
@@ -190,6 +192,31 @@ namespace LibrarySystemApp
         public List<Member> GetMembers()
         {
             return members;
+        }
+
+        public void AddBookRequest(Book book, Member member)
+        {
+            BookRequest request = new BookRequest(book, member);
+            bookRequests.Add(request);
+            Console.WriteLine($"Book request added for '{book.GetTitle()}' by {member.GetFirstName()} {member.GetSurname()}");
+        }
+
+        public void SaveBookRequestsToFile(string filename)
+        {
+             try
+            {
+                using (StreamWriter writer = new StreamWriter(filename))
+                {
+                    foreach (BookRequest b in bookRequests)
+                    {
+                        writer.WriteLine($"{b.RequestedBook.Author}, {b.RequestedBook.Title}, {b.RequestedBook.Year}, {b.RequestingMember.GetId()}, {b.RequestDate}, {b.Status}");
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"An error occured while saving book requests to file : {e.Message}");
+            }
         }
     }
 }

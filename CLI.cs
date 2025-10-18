@@ -186,6 +186,18 @@ namespace LibrarySystemApp
                 {
                     library.ListBooks();
                 }
+                else if (choice == "7")
+                {
+                    Console.Write("Enter author: ");
+                    string author = Console.ReadLine();
+                    Console.Write("Enter title: ");
+                    string title = Console.ReadLine();
+                    Console.Write("Enter year: ");
+                    int year = int.Parse(Console.ReadLine());
+                    library.AddBookRequest(new Book(author, title, year), member);
+                    library.SaveBookRequestsToFile("bookRequests.csv");
+                    Console.WriteLine("Successfully added book request!");
+                }
                 else if (choice == "8")
                 {
                     Console.WriteLine("Logging out...");
