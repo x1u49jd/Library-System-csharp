@@ -116,7 +116,9 @@ namespace LibrarySystemApp
                 Console.WriteLine("1. List Books");
                 Console.WriteLine("2. Add Book");
                 Console.WriteLine("3. Remove Book");
-                Console.WriteLine("4. Log out");
+                Console.WriteLine("4. View Members");
+                Console.WriteLine("5. View Borrowed Books (Not Implemented)");
+                Console.WriteLine("6. Log out");
                 Console.Write("Choose an option: ");
                 string choice = Console.ReadLine().Trim();
 
@@ -150,6 +152,10 @@ namespace LibrarySystemApp
                 }
                 else if (choice == "4")
                 {
+                    library.ListMembers();
+                }
+                else if (choice == "6")
+                {
                     Console.WriteLine("Logging out...");
                     break;
                 }
@@ -166,7 +172,13 @@ namespace LibrarySystemApp
             {
                 Console.WriteLine("\n--- Member Menu ---");
                 Console.WriteLine("1. List Books");
-                Console.WriteLine("2. Log out");
+                Console.WriteLine("2. Search Book (Not Implemented)");
+                Console.WriteLine("3. Borrow Book (Not Implemented)");
+                Console.WriteLine("4. Return Book (Not Implemented)");
+                Console.WriteLine("5. View Borrowed Books (Not Implemented)");
+                Console.WriteLine("6. Rate Book (Not Implemented)");
+                Console.WriteLine("7. Request Book (Not Implemented)");
+                Console.WriteLine("8. Log out");
                 Console.Write("Choose an option: ");
                 string choice = Console.ReadLine().Trim();
 
@@ -174,7 +186,7 @@ namespace LibrarySystemApp
                 {
                     library.ListBooks();
                 }
-                else if (choice == "2")
+                else if (choice == "8")
                 {
                     Console.WriteLine("Logging out...");
                     break;
