@@ -40,6 +40,15 @@ namespace LibrarySystemApp
 
         public void ListBooks()
         {
+            if (books.Count == 0)
+            {
+                Console.WriteLine("No books found.");
+                return;
+            }
+
+            Console.WriteLine("Books:");
+            Console.WriteLine("==================");
+
             foreach (Book book in books)
             {
                 Console.WriteLine($"{book.GetAuthor()}, {book.GetTitle()}, {book.GetYear()}");
@@ -128,6 +137,15 @@ namespace LibrarySystemApp
 
         public void ListMembers()
         {
+            if (members.Count == 0)
+            {
+                Console.WriteLine("No members found.");
+                return;
+            }
+
+            Console.WriteLine("Members:");
+            Console.WriteLine("==================");
+
             foreach (Member m in members)
             {
                 Console.WriteLine($"{m.GetId()}, {m.GetFirstName()}, {m.GetSurname()}, {m.GetPassword()}, {m.GetJoinedDate()}, {m.GetMembershipType()}");
@@ -209,7 +227,7 @@ namespace LibrarySystemApp
                 return;
             }
     
-            Console.WriteLine("All Book Requests:");
+            Console.WriteLine("Book Requests:");
             Console.WriteLine("==================");
     
             foreach (BookRequest request in bookRequests)
