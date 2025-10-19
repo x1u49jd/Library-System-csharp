@@ -11,6 +11,7 @@ namespace LibrarySystemApp
             Library library = new Library();
             library.LoadBooksFromFile("books.csv");
             library.LoadMembersFromFile("members.csv");
+            library.LoadBookRequestsFromFile("bookRequests.csv");
 
             while (true)
             {
@@ -118,7 +119,8 @@ namespace LibrarySystemApp
                 Console.WriteLine("3. Remove Book");
                 Console.WriteLine("4. View Members");
                 Console.WriteLine("5. View Borrowed Books (Not Implemented)");
-                Console.WriteLine("6. Log out");
+                Console.WriteLine("6. View Book Requests");
+                Console.WriteLine("7. Log out");
                 Console.Write("Choose an option: ");
                 string choice = Console.ReadLine().Trim();
 
@@ -156,6 +158,10 @@ namespace LibrarySystemApp
                 }
                 else if (choice == "6")
                 {
+                    library.ListBookRequests();
+                }
+                else if (choice == "7")
+                {
                     Console.WriteLine("Logging out...");
                     break;
                 }
@@ -177,8 +183,9 @@ namespace LibrarySystemApp
                 Console.WriteLine("4. Return Book (Not Implemented)");
                 Console.WriteLine("5. View Borrowed Books (Not Implemented)");
                 Console.WriteLine("6. Rate Book (Not Implemented)");
-                Console.WriteLine("7. Request Book (Not Implemented)");
-                Console.WriteLine("8. Log out");
+                Console.WriteLine("7. Request Book");
+                Console.WriteLine("8. View Book Requests");
+                Console.WriteLine("9. Log out");
                 Console.Write("Choose an option: ");
                 string choice = Console.ReadLine().Trim();
 
@@ -199,6 +206,11 @@ namespace LibrarySystemApp
                     Console.WriteLine("Successfully added book request!");
                 }
                 else if (choice == "8")
+                {
+                    library.ListBookRequests();
+                    Console.WriteLine("Presented your requests.");
+                }
+                else if (choice == "9")
                 {
                     Console.WriteLine("Logging out...");
                     break;

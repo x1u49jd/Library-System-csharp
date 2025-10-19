@@ -171,7 +171,7 @@ namespace LibrarySystemApp
                                 string surname = parts[2].Trim();
                                 string password = parts[3].Trim();
                                 DateTime joinedDate = DateTime.Parse(parts[4].Trim());
-                                Member.MembershipLevel membershipType = (Member.MembershipLevel)Enum.Parse(typeof(Member.MembershipLevel), parts[5].Trim());                            
+                                Member.MembershipLevel membershipType = (Member.MembershipLevel)Enum.Parse(typeof(Member.MembershipLevel), parts[5].Trim());
                                 members.Add(new Member(id, firstName, surname, password, joinedDate, membershipType));
                             }
                         }
@@ -201,9 +201,29 @@ namespace LibrarySystemApp
             Console.WriteLine($"Book request added for '{book.GetTitle()}' by {member.GetFirstName()} {member.GetSurname()}");
         }
 
+        public void ListBookRequests()
+        {
+            if (bookRequests.Count == 0)
+            {
+                Console.WriteLine("No book requests found.");
+                return;
+            }
+    
+            Console.WriteLine("All Book Requests:");
+            Console.WriteLine("==================");
+    
+            foreach (BookRequest request in bookRequests)
+            {
+                Console.WriteLine($"Book: {request.RequestedBook.GetTitle()} by {request.RequestedBook.GetAuthor()} ({request.RequestedBook.GetYear()})");
+                Console.WriteLine($"Requested by: {request.RequestingMember.GetFirstName()} {request.RequestingMember.GetSurname()} (ID: {request.RequestingMember.GetId()})");
+                Console.WriteLine($"Request Date: {request.RequestDate:yyyy-MM-dd}");
+                Console.WriteLine($"Status: {request.Status}");
+                Console.WriteLine("---");
+            }
+        }
         public void SaveBookRequestsToFile(string filename)
         {
-             try
+            try
             {
                 using (StreamWriter writer = new StreamWriter(filename))
                 {
@@ -216,6 +236,56 @@ namespace LibrarySystemApp
             catch (Exception e)
             {
                 Console.WriteLine($"An error occured while saving book requests to file : {e.Message}");
+            }
+        }
+
+        public void LoadBookRequestsFromFile(string filename)
+        {
+            try
+            {
+                if (File.Exists(filename))
+                {
+                    using (StreamReader reader = new StreamReader(filename))
+                    {
+                        string line;
+                        while ((line = reader.ReadLine()) != null)
+                        {
+                            string[] parts = line.Split(',');
+                            if (parts.Length == 6)
+                            {
+                                string author = parts[0].Trim();
+                                string title = parts[1].Trim();
+                                int year = int.Parse(parts[2].Trim());
+                                int memberId = int.Parse(parts[3].Trim());
+                                DateTime requestDate = DateTime.Parse(parts[4].Trim());
+                                BookRequest.RequestStatus status = (BookRequest.RequestStatus)Enum.Parse(typeof(BookRequest.RequestStatus), parts[5].Trim());
+
+                                Book book = new Book(author, title, year);
+                                Member member = members.Find(m => m.Id == memberId);
+
+                                if (member != null)
+                                {
+                                    BookRequest request = new BookRequest(book, member)
+                                    {
+                                        RequestDate = requestDate,
+                                        Status = status
+                                    };
+                                    bookRequests.Add(request);
+                                }
+                            }
+                        }
+                    }
+                    Console.WriteLine($"Book requests loaded from {filename}");
+                }
+                else
+                {
+                    Console.WriteLine($"File {filename} does not exist. Starting with an empty book request list.");
+                }
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"An error occured while loading book requests from file : {e.Message}");
             }
         }
     }
