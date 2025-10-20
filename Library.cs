@@ -55,6 +55,42 @@ namespace LibrarySystemApp
             }
         }
 
+        /*
+        public void ListBooksByAuthor(string author)
+        {
+            var filteredBooks = books.Where(b => b.GetAuthor().Equals(author.Trim(), StringComparison.OrdinalIgnoreCase)).ToList();
+            if (filteredBooks.Count == 0)
+            {
+                Console.WriteLine($"No books found by author '{author}'.");
+                return;
+            }
+
+            Console.WriteLine($"Books by {author}:");
+            Console.WriteLine("==================");
+            foreach (Book b in filteredBooks)
+            {
+                Console.WriteLine($"{b.GetAuthor()}, {b.GetTitle()}, {b.GetYear()}");
+            }
+        }
+
+        */
+        public void ListBooksByYear(int year)
+        {
+            var filteredBooks = books.Where(b => b.GetYear() == year).ToList();
+            if (filteredBooks.Count == 0)
+            {
+                Console.WriteLine($"No books found for the year {year}.");
+                return;
+            }
+
+            Console.WriteLine($"Books from the year {year}:");
+            Console.WriteLine("==================");
+            foreach (Book b in filteredBooks)
+            {
+                Console.WriteLine($"{b.GetAuthor()}, {b.GetTitle()}, {b.GetYear()}");
+            }
+        }
+
         public void SaveBooksToFile(string filename)
         {
             try

@@ -178,7 +178,7 @@ namespace LibrarySystemApp
             {
                 Console.WriteLine("\n--- Member Menu ---");
                 Console.WriteLine("1. List Books");
-                Console.WriteLine("2. Search Book (Not Implemented)");
+                Console.WriteLine("2. List Books by criterion");
                 Console.WriteLine("3. Borrow Book (Not Implemented)");
                 Console.WriteLine("4. Return Book (Not Implemented)");
                 Console.WriteLine("5. View Borrowed Books (Not Implemented)");
@@ -192,6 +192,43 @@ namespace LibrarySystemApp
                 if (choice == "1")
                 {
                     library.ListBooks();
+                }
+                if (choice == "2")
+                {
+                    Console.WriteLine("Choose criterion (author/year/genre): ");
+                    string criterion = Console.ReadLine();
+                    /*if (criterion == "author")
+                    {
+                        Console.WriteLine("Enter author name: ");
+                        string author = Console.ReadLine();
+                        library.ListBooksByAuthor(author);
+                    }*/
+                    else if (criterion == "year")
+                    {
+                        Console.WriteLine("Enter year: ");
+                        int year = int.Parse(Console.ReadLine());
+                        library.ListBooksByYear(year);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid criterion!");
+                    }
+                }
+                else if (choice == "3")
+                {
+                    Console.WriteLine("Feature not implemented yet.");
+                }
+                else if (choice == "4")
+                {
+                    Console.WriteLine("Feature not implemented yet.");
+                }
+                else if (choice == "5")
+                {
+                    Console.WriteLine("Feature not implemented yet.");
+                }
+                else if (choice == "6")
+                {
+                    Console.WriteLine("Feature not implemented yet.");
                 }
                 else if (choice == "7")
                 {
