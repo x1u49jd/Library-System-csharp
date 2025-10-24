@@ -51,14 +51,14 @@ namespace LibrarySystemApp
 
             foreach (Book book in books)
             {
-                Console.WriteLine($"{book.GetAuthor()}, {book.GetTitle()}, {book.GetYear()}");
+                Console.WriteLine($"{book.GetAuthor()}, {book.GetTitle()}, {book.GetYear()}, {book.GetGenre()}");
             }
         }
 
         /*
         public void ListBooksByAuthor(string author)
         {
-            var filteredBooks = books.Where(b => b.GetAuthor().Equals(author.Trim(), StringComparison.OrdinalIgnoreCase)).ToList();
+            var filteredBooks = books.Where(b => b.GetAuthor().Equals(author)).ToList();
             if (filteredBooks.Count == 0)
             {
                 Console.WriteLine($"No books found by author '{author}'.");
@@ -69,7 +69,7 @@ namespace LibrarySystemApp
             Console.WriteLine("==================");
             foreach (Book b in filteredBooks)
             {
-                Console.WriteLine($"{b.GetAuthor()}, {b.GetTitle()}, {b.GetYear()}");
+                Console.WriteLine($"{b.GetAuthor()}, {b.GetTitle()}, {b.GetYear()}, {b.GetGenre()}");
             }
         }
 
@@ -87,8 +87,25 @@ namespace LibrarySystemApp
             Console.WriteLine("==================");
             foreach (Book b in filteredBooks)
             {
-                Console.WriteLine($"{b.GetAuthor()}, {b.GetTitle()}, {b.GetYear()}");
+                Console.WriteLine($"{b.GetAuthor()}, {b.GetTitle()}, {b.GetYear()}, {b.GetGenre()}");
             }
+        }
+
+        public void ListBooksByGenre(string genre)
+        {
+            var filteredBooks = books.Where(b => b.GetGenre() == genre).ToList();
+            if (filteredBooks.Count == 0)
+            {
+                Console.WriteLine($"No books found for the genre {genre}.");
+                return;
+            }
+            Console.WriteLine($"Books from the genre {genre}:");
+            Console.WriteLine("==================");
+            foreach( Book b in filteredBooks)
+            {
+                 Console.WriteLine($"{b.GetAuthor()}, {b.GetTitle()}, {b.GetYear()}, {b.GetGenre()}");
+            }
+
         }
 
         public void SaveBooksToFile(string filename)
@@ -99,7 +116,7 @@ namespace LibrarySystemApp
                 {
                     foreach (Book b in books)
                     {
-                        writer.WriteLine($"{b.GetAuthor()}, {b.GetTitle()}, {b.GetYear()}");
+                        writer.WriteLine($"{b.GetAuthor()}, {b.GetTitle()}, {b.GetYear()}, {b.GetGenre()}");
                         Console.WriteLine($"Accounts saved to {filename}");
                     }
                 }
@@ -122,12 +139,13 @@ namespace LibrarySystemApp
                         while ((line = reader.ReadLine()) != null)
                         {
                             string[] parts = line.Split(',');
-                            if (parts.Length == 3)
+                            if (parts.Length == 4)
                             {
                                 string author = parts[0].Trim();
                                 string title = parts[1].Trim();
                                 int year = int.Parse(parts[2].Trim());
-                                books.Add(new Book(author, title, year));
+                                string genre = parts[3].Trim();
+                                books.Add(new Book(author, title, year, genre));
                             }
                         }
                     }
@@ -268,7 +286,7 @@ namespace LibrarySystemApp
     
             foreach (BookRequest request in bookRequests)
             {
-                Console.WriteLine($"Book: {request.RequestedBook.GetTitle()} by {request.RequestedBook.GetAuthor()} ({request.RequestedBook.GetYear()})");
+                Console.WriteLine($"Book: {request.RequestedBook.GetTitle()} by {request.RequestedBook.GetAuthor()} ({request.RequestedBook.GetYear()}, {request.RequestedBook.GetGenre()})");
                 Console.WriteLine($"Requested by: {request.RequestingMember.GetFirstName()} {request.RequestingMember.GetSurname()} (ID: {request.RequestingMember.GetId()})");
                 Console.WriteLine($"Request Date: {request.RequestDate:yyyy-MM-dd}");
                 Console.WriteLine($"Status: {request.Status}");
@@ -283,7 +301,7 @@ namespace LibrarySystemApp
                 {
                     foreach (BookRequest b in bookRequests)
                     {
-                        writer.WriteLine($"{b.RequestedBook.Author}, {b.RequestedBook.Title}, {b.RequestedBook.Year}, {b.RequestingMember.GetId()}, {b.RequestDate}, {b.Status}");
+                        writer.WriteLine($"{b.RequestedBook.Author}, {b.RequestedBook.Title}, {b.RequestedBook.Year}, {b.RequestedBook.GetGenre()}, {b.RequestingMember.GetId()}, {b.RequestDate}, {b.Status}");
                     }
                 }
             }
@@ -305,16 +323,17 @@ namespace LibrarySystemApp
                         while ((line = reader.ReadLine()) != null)
                         {
                             string[] parts = line.Split(',');
-                            if (parts.Length == 6)
+                            if (parts.Length == 7)
                             {
                                 string author = parts[0].Trim();
                                 string title = parts[1].Trim();
                                 int year = int.Parse(parts[2].Trim());
-                                int memberId = int.Parse(parts[3].Trim());
-                                DateTime requestDate = DateTime.Parse(parts[4].Trim());
-                                BookRequest.RequestStatus status = (BookRequest.RequestStatus)Enum.Parse(typeof(BookRequest.RequestStatus), parts[5].Trim());
+                                string genre = parts[3].Trim();
+                                int memberId = int.Parse(parts[4].Trim());
+                                DateTime requestDate = DateTime.Parse(parts[5].Trim());
+                                BookRequest.RequestStatus status = (BookRequest.RequestStatus)Enum.Parse(typeof(BookRequest.RequestStatus), parts[6].Trim());
 
-                                Book book = new Book(author, title, year);
+                                Book book = new Book(author, title, year, genre);
                                 Member member = members.Find(m => m.Id == memberId);
 
                                 if (member != null)

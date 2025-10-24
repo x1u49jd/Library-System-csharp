@@ -136,7 +136,9 @@ namespace LibrarySystemApp
                     string title = Console.ReadLine();
                     Console.Write("Enter year: ");
                     int year = int.Parse(Console.ReadLine());
-                    library.AddBook(new Book(author, title, year));
+                    Console.Write("Enter genre:");
+                    string genre = Console.ReadLine();
+                    library.AddBook(new Book(author, title, year, genre));
                     library.SaveBooksToFile("books.csv");
                     Console.WriteLine("Successfully added a book!");
                 }
@@ -148,7 +150,9 @@ namespace LibrarySystemApp
                     string title = Console.ReadLine();
                     Console.Write("Enter year: ");
                     int year = int.Parse(Console.ReadLine());
-                    library.RemoveBook(new Book(author, title, year));
+                    Console.Write("Enter genre:");
+                    string genre = Console.ReadLine();
+                    library.RemoveBook(new Book(author, title, year, genre));
                     library.SaveBooksToFile("books.csv");
                     Console.WriteLine("Successfully removed a book!");
                 }
@@ -195,14 +199,14 @@ namespace LibrarySystemApp
                 }
                 if (choice == "2")
                 {
-                    Console.WriteLine("Choose criterion (author/year/genre): ");
+                    Console.WriteLine("Choose criterion (year/genre): ");
                     string criterion = Console.ReadLine();
-                    /*if (criterion == "author")
+                    if (criterion == "genre")
                     {
-                        Console.WriteLine("Enter author name: ");
-                        string author = Console.ReadLine();
-                        library.ListBooksByAuthor(author);
-                    }*/
+                        Console.WriteLine("Enter genre name: ");
+                        string genre = Console.ReadLine();
+                        library.ListBooksByGenre(genre);
+                    }
                     else if (criterion == "year")
                     {
                         Console.WriteLine("Enter year: ");
@@ -238,7 +242,9 @@ namespace LibrarySystemApp
                     string title = Console.ReadLine();
                     Console.Write("Enter year: ");
                     int year = int.Parse(Console.ReadLine());
-                    library.AddBookRequest(new Book(author, title, year), member);
+                    Console.Write("Enter genre:");
+                    string genre = Console.ReadLine();
+                    library.AddBookRequest(new Book(author, title, year, genre), member);
                     library.SaveBookRequestsToFile("bookRequests.csv");
                     Console.WriteLine("Successfully added book request!");
                 }
