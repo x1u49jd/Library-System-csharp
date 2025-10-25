@@ -1,17 +1,23 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using System.Security.Cryptography.X509Certificates;
 
 namespace LibrarySystemApp
 {
     class CLI
     {
+        private const string booksFile = "books.csv";
+        private const string membersFile = "members.csv";
+        private const string bookRequestsFile = "bookRequests.csv";
+
         static void Main(string[] args)
         {
+        
             Library library = new Library();
-            library.LoadBooksFromFile("books.csv");
-            library.LoadMembersFromFile("members.csv");
-            library.LoadBookRequestsFromFile("bookRequests.csv");
+            library.LoadBooksFromFile(booksFile);
+            library.LoadMembersFromFile(membersFile);
+            library.LoadBookRequestsFromFile(bookRequestsFile);
 
             while (true)
             {
@@ -92,7 +98,7 @@ namespace LibrarySystemApp
 
             Member member = new Member(id, name, surname, password, joinedDate, Member.MembershipLevel.Member);
             library.AddMember(member);
-            library.SaveMembersToFile("members.csv");
+            library.SaveMembersToFile(membersFile);
 
             Console.WriteLine($"Successfully registered! Your Member ID is {id}");
         }
@@ -139,7 +145,7 @@ namespace LibrarySystemApp
                     Console.Write("Enter genre:");
                     string genre = Console.ReadLine();
                     library.AddBook(new Book(author, title, year, genre));
-                    library.SaveBooksToFile("books.csv");
+                    library.SaveBooksToFile(booksFile);
                     Console.WriteLine("Successfully added a book!");
                 }
                 else if (choice == "3")
@@ -153,7 +159,7 @@ namespace LibrarySystemApp
                     Console.Write("Enter genre:");
                     string genre = Console.ReadLine();
                     library.RemoveBook(new Book(author, title, year, genre));
-                    library.SaveBooksToFile("books.csv");
+                    library.SaveBooksToFile(booksFile);
                     Console.WriteLine("Successfully removed a book!");
                 }
                 else if (choice == "4")
@@ -250,7 +256,7 @@ namespace LibrarySystemApp
                     Console.Write("Enter genre:");
                     string genre = Console.ReadLine();
                     library.AddBookRequest(new Book(author, title, year, genre), member);
-                    library.SaveBookRequestsToFile("bookRequests.csv");
+                    library.SaveBookRequestsToFile(bookRequestsFile);
                     Console.WriteLine("Successfully added book request!");
                 }
                 else if (choice == "7")
