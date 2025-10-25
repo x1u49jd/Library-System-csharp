@@ -182,32 +182,37 @@ namespace LibrarySystemApp
             {
                 Console.WriteLine("\n--- Member Menu ---");
                 Console.WriteLine("1. List Books");
-                Console.WriteLine("2. List Books by criterion");
-                Console.WriteLine("3. Borrow Book (Not Implemented)");
-                Console.WriteLine("4. Return Book (Not Implemented)");
-                Console.WriteLine("5. View Borrowed Books (Not Implemented)");
-                Console.WriteLine("6. Rate Book (Not Implemented)");
-                Console.WriteLine("7. Request Book");
-                Console.WriteLine("8. View Book Requests");
-                Console.WriteLine("9. Log out");
+                Console.WriteLine("2. Borrow Book (Not Implemented)");
+                Console.WriteLine("3. Return Book (Not Implemented)");
+                Console.WriteLine("4. View Borrowed Books (Not Implemented)");
+                Console.WriteLine("5. Rate Book (Not Implemented)");
+                Console.WriteLine("6. Request Book");
+                Console.WriteLine("7. View Book Requests");
+                Console.WriteLine("8. Log out");
                 Console.Write("Choose an option: ");
                 string choice = Console.ReadLine().Trim();
 
                 if (choice == "1")
                 {
-                    library.ListBooks();
-                }
-                if (choice == "2")
-                {
-                    Console.WriteLine("Choose criterion (year/genre): ");
-                    string criterion = Console.ReadLine();
-                    if (criterion == "genre")
+                    Console.WriteLine("Choose option (show all/by author/by year/by genre): ");
+                    string option = Console.ReadLine();
+                    if (option == "show all")
+                    {
+                        library.ListBooks();
+                    }
+                    else if (option == "by author")
+                    {
+                        Console.WriteLine("Enter author name: ");
+                        string author = Console.ReadLine();
+                        library.ListBooksByAuthor(author);
+                    }
+                    else if (option == "by genre")
                     {
                         Console.WriteLine("Enter genre name: ");
                         string genre = Console.ReadLine();
                         library.ListBooksByGenre(genre);
                     }
-                    else if (criterion == "year")
+                    else if (option == "by year")
                     {
                         Console.WriteLine("Enter year: ");
                         int year = int.Parse(Console.ReadLine());
@@ -215,8 +220,12 @@ namespace LibrarySystemApp
                     }
                     else
                     {
-                        Console.WriteLine("Invalid criterion!");
+                        Console.WriteLine("Invalid option!");
                     }
+                }
+                else if (choice == "2")
+                {
+                    Console.WriteLine("Feature not implemented yet.");
                 }
                 else if (choice == "3")
                 {
@@ -232,10 +241,6 @@ namespace LibrarySystemApp
                 }
                 else if (choice == "6")
                 {
-                    Console.WriteLine("Feature not implemented yet.");
-                }
-                else if (choice == "7")
-                {
                     Console.Write("Enter author: ");
                     string author = Console.ReadLine();
                     Console.Write("Enter title: ");
@@ -248,12 +253,12 @@ namespace LibrarySystemApp
                     library.SaveBookRequestsToFile("bookRequests.csv");
                     Console.WriteLine("Successfully added book request!");
                 }
-                else if (choice == "8")
+                else if (choice == "7")
                 {
                     library.ListBookRequests();
-                    Console.WriteLine("Presented your requests.");
+                    Console.WriteLine("Presented books requests.");
                 }
-                else if (choice == "9")
+                else if (choice == "8")
                 {
                     Console.WriteLine("Logging out...");
                     break;

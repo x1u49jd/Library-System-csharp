@@ -55,10 +55,16 @@ namespace LibrarySystemApp
             }
         }
 
-        /*
+
         public void ListBooksByAuthor(string author)
         {
-            var filteredBooks = books.Where(b => b.GetAuthor().Equals(author)).ToList();
+            // Removes all spaces and convert to lowercase for comparison
+            string searchAuthor = author.Replace(" ", "").ToLower();
+
+            var filteredBooks = books.Where(b => 
+            b.GetAuthor().Replace(" ", "").ToLower().Equals(searchAuthor)
+            ).ToList();
+
             if (filteredBooks.Count == 0)
             {
                 Console.WriteLine($"No books found by author '{author}'.");
@@ -72,8 +78,7 @@ namespace LibrarySystemApp
                 Console.WriteLine($"{b.GetAuthor()}, {b.GetTitle()}, {b.GetYear()}, {b.GetGenre()}");
             }
         }
-
-        */
+        
         public void ListBooksByYear(int year)
         {
             var filteredBooks = books.Where(b => b.GetYear() == year).ToList();
