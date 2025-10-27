@@ -291,7 +291,7 @@ namespace LibrarySystemApp
     
             foreach (BookRequest request in bookRequests)
             {
-                Console.WriteLine($"Book: {request.RequestedBook.GetTitle()} by {request.RequestedBook.GetAuthor()} ({request.RequestedBook.GetYear()}, {request.RequestedBook.GetGenre()})");
+                Console.WriteLine($"Book: {request.RequestedBook.GetTitle()} by {request.RequestedBook.GetAuthor()} ({request.RequestedBook.GetYear()}) - Genre: {request.RequestedBook.GetGenre()}");
                 Console.WriteLine($"Requested by: {request.RequestingMember.GetFirstName()} {request.RequestingMember.GetSurname()} (ID: {request.RequestingMember.GetId()})");
                 Console.WriteLine($"Request Date: {request.RequestDate:yyyy-MM-dd}");
                 Console.WriteLine($"Status: {request.Status}");

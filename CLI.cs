@@ -115,6 +115,19 @@ namespace LibrarySystemApp
                 RegularMemberMenu(library, member);
             }
         }
+
+        private static Book GetBookFromInput()
+        {
+            Console.Write("Enter author: ");
+            string author = Console.ReadLine();
+            Console.Write("Enter title: ");
+            string title = Console.ReadLine();
+            Console.Write("Enter year: ");
+            int year = int.Parse(Console.ReadLine());
+            Console.Write("Enter genre:");
+            string genre = Console.ReadLine();
+            return new Book(author, title, year, genre);
+        }
         static void AdminMenu(Library library, Member member)
         {
             while (true)
@@ -136,29 +149,15 @@ namespace LibrarySystemApp
                 }
                 else if (choice == "2")
                 {
-                    Console.Write("Enter author: ");
-                    string author = Console.ReadLine();
-                    Console.Write("Enter title: ");
-                    string title = Console.ReadLine();
-                    Console.Write("Enter year: ");
-                    int year = int.Parse(Console.ReadLine());
-                    Console.Write("Enter genre:");
-                    string genre = Console.ReadLine();
-                    library.AddBook(new Book(author, title, year, genre));
+                    Book book = GetBookFromInput();
+                    library.AddBook(book);
                     library.SaveBooksToFile(booksFile);
                     Console.WriteLine("Successfully added a book!");
                 }
                 else if (choice == "3")
                 {
-                    Console.Write("Enter author: ");
-                    string author = Console.ReadLine();
-                    Console.Write("Enter title: ");
-                    string title = Console.ReadLine();
-                    Console.Write("Enter year: ");
-                    int year = int.Parse(Console.ReadLine());
-                    Console.Write("Enter genre:");
-                    string genre = Console.ReadLine();
-                    library.RemoveBook(new Book(author, title, year, genre));
+                    Book book = GetBookFromInput();
+                    library.RemoveBook(book);
                     library.SaveBooksToFile(booksFile);
                     Console.WriteLine("Successfully removed a book!");
                 }
@@ -247,15 +246,8 @@ namespace LibrarySystemApp
                 }
                 else if (choice == "6")
                 {
-                    Console.Write("Enter author: ");
-                    string author = Console.ReadLine();
-                    Console.Write("Enter title: ");
-                    string title = Console.ReadLine();
-                    Console.Write("Enter year: ");
-                    int year = int.Parse(Console.ReadLine());
-                    Console.Write("Enter genre:");
-                    string genre = Console.ReadLine();
-                    library.AddBookRequest(new Book(author, title, year, genre), member);
+                    Book book = GetBookFromInput();
+                    library.AddBookRequest(book, member);
                     library.SaveBookRequestsToFile(bookRequestsFile);
                     Console.WriteLine("Successfully added book request!");
                 }
