@@ -2,6 +2,7 @@ using System.Formats.Asn1;
 using System.Linq.Expressions;
 using System.Security.Cryptography;
 using System.Threading.Tasks.Dataflow;
+using System.Linq;
 
 namespace LibrarySystemApp 
 {
@@ -12,6 +13,8 @@ namespace LibrarySystemApp
         private List<Member> members = new List<Member>();
 
         private List<BookRequest> bookRequests = new List<BookRequest>();
+
+        private List<BookRating> bookRatings = new List<BookRating>();
 
         // public method to add books to the list (PascalCase)
         public void AddBook(Book book)
@@ -370,6 +373,115 @@ namespace LibrarySystemApp
             catch (Exception e)
             {
                 Console.WriteLine($"An error occured while loading book requests from file : {e.Message}");
+            }
+        }
+
+        public void AddBookRating(Book book, Member member, BookRating.RatingScale rating){
+
+            
+            // if the member has already rated the book, update the rating
+            var existingRating = bookRatings.FirstOrDefault(br => br.RatedBook.Title == book.Title && br.RatingMember.Id == member.Id);
+            if (existingRating != null)
+            {
+                existingRating.Rating = rating;
+                Console.WriteLine($"Book rating updated for '{book.GetTitle()}' by {member.GetFirstName()} {member.GetSurname()}");
+                return;
+            }
+
+            if (!GetBooks().Contains(book))
+            {
+                Console.WriteLine($"Book '{book.GetTitle()}' not found in the library.");
+                return;
+            }
+            else
+            {
+
+
+                BookRating bookRating = new BookRating(book, member, rating);
+                bookRatings.Add(bookRating);
+                Console.WriteLine($"Book rating added for '{book.GetTitle()}' by {member.GetFirstName()} {member.GetSurname()}");
+            }
+            
+        }
+
+        public void ListAvarageBookRatings()
+        {
+            if (bookRatings.Count == 0){
+                Console.WriteLine("No book ratings found.");
+                return;
+            }
+
+            var groupedRatings = bookRatings.GroupBy(br => br.RatedBook.Title);
+            Console.WriteLine("Average Book Ratings:");
+            Console.WriteLine("==================");
+            foreach (var group in groupedRatings)
+            {
+                int totalRating = group.Sum(br => (int)br.Rating);
+                double averageRating = (double)totalRating / group.Count();
+                Console.WriteLine($"Book: {group.First().RatedBook.GetTitle()} by {group.First().RatedBook.GetAuthor()} - Average Rating: {averageRating:F2}");
+            }
+        }
+
+        public void LoadBookRatingsFromFile(string filename)
+        {
+            try
+            {
+                if (File.Exists(filename))
+                {
+                    using (StreamReader reader = new StreamReader(filename))
+                    {
+                        string line;
+                        while ((line = reader.ReadLine()) != null)
+                        {
+                            string[] parts = line.Split(',');
+                            if (parts.Length == 6)
+                            {
+                                string author = parts[0].Trim();
+                                string title = parts[1].Trim();
+                                int year = int.Parse(parts[2].Trim());
+                                string genre = parts[3].Trim();
+                                int memberId = int.Parse(parts[4].Trim());
+                                BookRating.RatingScale rating = (BookRating.RatingScale)Enum.Parse(typeof(BookRating.RatingScale), parts[5].Trim());
+
+                                Book book = new Book(author, title, year, genre);
+                                Member member = members.Find(m => m.GetId() == memberId);
+
+                                if (member != null)
+                                {
+                                    BookRating bookRating = new BookRating(book, member, rating);
+                                    bookRatings.Add(bookRating);
+                                }
+                            }
+                        }
+                    }
+                    Console.WriteLine($"Book ratings loaded from {filename}");
+                }
+                else
+                {
+                    Console.WriteLine($"File {filename} does not exist. Starting with an empty book ratings list.");
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"An error occurred while loading book ratings from file: {e.Message}");
+            }
+        }
+
+        public void SaveBookRatingsToFile(string filename)
+        {
+            try
+            {
+                using (StreamWriter writer = new StreamWriter(filename))
+                {
+                    foreach (BookRating br in bookRatings)
+                    {
+                        writer.WriteLine($"{br.RatedBook.Author}, {br.RatedBook.Title}, {br.RatedBook.Year}, {br.RatedBook.GetGenre()}, {br.RatingMember.GetId()}, {br.Rating}");
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"An error occured while saving book ratings to file : {e.Message}");
             }
         }
     }

@@ -10,6 +10,7 @@ namespace LibrarySystemApp
         private const string booksFile = "books.csv";
         private const string membersFile = "members.csv";
         private const string bookRequestsFile = "bookRequests.csv";
+        private const string bookRatingsFile = "bookRatings.csv";
 
         static void Main(string[] args)
         {
@@ -18,6 +19,7 @@ namespace LibrarySystemApp
             library.LoadBooksFromFile(booksFile);
             library.LoadMembersFromFile(membersFile);
             library.LoadBookRequestsFromFile(bookRequestsFile);
+            library.LoadBookRatingsFromFile(bookRatingsFile);
 
             while (true)
             {
@@ -128,6 +130,7 @@ namespace LibrarySystemApp
             string genre = Console.ReadLine();
             return new Book(author, title, year, genre);
         }
+
         static void AdminMenu(Library library, Member member)
         {
             while (true)
@@ -140,6 +143,8 @@ namespace LibrarySystemApp
                 Console.WriteLine("5. View Borrowed Books (Not Implemented)");
                 Console.WriteLine("6. View Book Requests");
                 Console.WriteLine("7. Log out");
+                Console.WriteLine("8. Display book ratings");
+                Console.WriteLine("9. Rate Book");
                 Console.Write("Choose an option: ");
                 string choice = Console.ReadLine().Trim();
 
@@ -201,6 +206,18 @@ namespace LibrarySystemApp
                     Console.WriteLine("Logging out...");
                     break;
                 }
+                else if (choice == "8")
+                {
+                    library.ListAvarageBookRatings();
+                }
+                else if (choice == "9")
+                {
+                    Book book = GetBookFromInput();
+                    Console.WriteLine("Rate Book 1 to 5:");
+                    int rating = int.Parse(Console.ReadLine());
+                    library.AddBookRating(book, member, (BookRating.RatingScale)rating);
+                    library.SaveBookRatingsToFile(bookRatingsFile);
+                }
                 else
                 {
                     Console.WriteLine("Wrong option! Try Again!");
@@ -221,6 +238,7 @@ namespace LibrarySystemApp
                 Console.WriteLine("6. Request Book");
                 Console.WriteLine("7. View Book Requests");
                 Console.WriteLine("8. Log out");
+                Console.WriteLine("9. Display book ratings");
                 Console.Write("Choose an option: ");
                 string choice = Console.ReadLine().Trim();
 
@@ -269,7 +287,11 @@ namespace LibrarySystemApp
                 }
                 else if (choice == "5")
                 {
-                    Console.WriteLine("Feature not implemented yet.");
+                    Book book = GetBookFromInput();
+                    Console.WriteLine("Rate Book 1 to 5:");
+                    int rating = int.Parse(Console.ReadLine());
+                    library.AddBookRating(book, member, (BookRating.RatingScale)rating);
+                    library.SaveBookRatingsToFile(bookRatingsFile);
                 }
                 else if (choice == "6")
                 {
@@ -287,6 +309,14 @@ namespace LibrarySystemApp
                 {
                     Console.WriteLine("Logging out...");
                     break;
+                }
+                else if (choice == "9")
+                {
+                    library.ListAvarageBookRatings();
+                }
+                else
+                {
+                    Console.WriteLine("Wrong option! Try Again!");
                 }
             }
         }
