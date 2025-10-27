@@ -98,7 +98,13 @@ namespace LibrarySystemApp
 
         public void ListBooksByGenre(string genre)
         {
-            var filteredBooks = books.Where(b => b.GetGenre() == genre).ToList();
+            // Removes all spaces and convert to lowercase for comparison
+            string searchGenre = genre.Replace(" ", "").ToLower();
+
+            var filteredBooks = books.Where(b => 
+            b.GetGenre().Replace(" ", "").ToLower().Equals(searchGenre)
+            ).ToList();
+
             if (filteredBooks.Count == 0)
             {
                 Console.WriteLine($"No books found for the genre {genre}.");
