@@ -199,25 +199,25 @@ namespace LibrarySystemApp
 
                 if (choice == "1")
                 {
-                    Console.WriteLine("Choose option (show all/by author/by year/by genre): ");
+                    Console.WriteLine("Choose an option (type 'author', 'year', or 'genre'; leave blank to show all):");
                     string option = Console.ReadLine();
-                    if (option == "show all")
+                    if (option == "")
                     {
                         library.ListBooks();
                     }
-                    else if (option == "by author")
+                    else if (option == "author")
                     {
                         Console.WriteLine("Enter author name: ");
                         string author = Console.ReadLine();
                         library.ListBooksByAuthor(author);
                     }
-                    else if (option == "by genre")
+                    else if (option == "genre")
                     {
                         Console.WriteLine("Enter genre name: ");
                         string genre = Console.ReadLine();
                         library.ListBooksByGenre(genre);
                     }
-                    else if (option == "by year")
+                    else if (option == "year")
                     {
                         Console.WriteLine("Enter year: ");
                         int year = int.Parse(Console.ReadLine());
