@@ -126,7 +126,7 @@ namespace LibrarySystemApp
             string title = Console.ReadLine();
             Console.Write("Enter year: ");
             int year = int.Parse(Console.ReadLine());
-            Console.Write("Enter genre:");
+            Console.Write("Enter genre: ");
             string genre = Console.ReadLine();
             return new Book(author, title, year, genre);
         }
@@ -288,7 +288,7 @@ namespace LibrarySystemApp
                 else if (choice == "5")
                 {
                     Book book = GetBookFromInput();
-                    Console.WriteLine("Rate Book 1 to 5:");
+                    Console.WriteLine("Rate Book 1 to 5: ");
                     int rating = int.Parse(Console.ReadLine());
                     library.AddBookRating(book, member, (BookRating.RatingScale)rating);
                     library.SaveBookRatingsToFile(bookRatingsFile);
