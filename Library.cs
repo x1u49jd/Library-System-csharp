@@ -383,25 +383,35 @@ namespace LibrarySystemApp
             var existingRating = bookRatings.FirstOrDefault(br => br.RatedBook.Title == book.Title && br.RatingMember.Id == member.Id);
             if (existingRating != null)
             {
-                existingRating.Rating = rating;
-                Console.WriteLine($"Book rating updated for '{book.GetTitle()}' by {member.GetFirstName()} {member.GetSurname()}");
-                return;
-            }
-
-            if (!GetBooks().Contains(book))
-            {
-                Console.WriteLine($"Book '{book.GetTitle()}' not found in the library.");
-                return;
+                Console.WriteLine($"You have already given this book a rating of {existingRating.Rating}. Would you like to update your rating to {rating}? Type 'y' to confirm, any other key to cancel.");
+                string input = Console.ReadLine();
+                if (input.ToLower() == "y")
+                {
+                    existingRating.Rating = rating;
+                    Console.WriteLine($"Book rating updated for '{book.GetTitle()}' by {member.GetFirstName()} {member.GetSurname()} with new rating of {rating}");
+                    return;
+                }
+                else
+                {
+                    Console.WriteLine("Book rating not updated.");
+                    return;
+                }
             }
             else
             {
 
-
-                BookRating bookRating = new BookRating(book, member, rating);
-                bookRatings.Add(bookRating);
-                Console.WriteLine($"Book rating added for '{book.GetTitle()}' by {member.GetFirstName()} {member.GetSurname()}");
+                if (GetBooks().Contains(book))
+                {
+                    BookRating bookRating = new BookRating(book, member, rating);
+                    bookRatings.Add(bookRating);
+                    Console.WriteLine($"Book rating added for '{book.GetTitle()}' by {member.GetFirstName()} {member.GetSurname()}");
+                }
+                else
+                {
+                    Console.WriteLine($"Book '{book.GetTitle()}' not found in the library.");
+                    return;
+                }
             }
-            
         }
 
         public void ListAvarageBookRatings()
