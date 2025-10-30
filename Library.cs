@@ -494,5 +494,26 @@ namespace LibrarySystemApp
                 Console.WriteLine($"An error occured while saving book ratings to file : {e.Message}");
             }
         }
+
+        public void ListMemberBookRatings(Member member)
+        {
+            var memberRatings = bookRatings.Where(br => br.RatingMember.Id == member.Id).ToList();
+
+            Console.WriteLine("Your Book Ratings:");
+            Console.WriteLine("==================");
+
+            if (memberRatings.Count == 0)
+            {
+                Console.WriteLine("You have not rated any books yet.");
+                return;
+            }
+            else
+            {
+                foreach (var rating in memberRatings)
+                {
+                    Console.WriteLine($"Book: {rating.RatedBook.GetTitle()} by {rating.RatedBook.GetAuthor()} - Rating: {(int)rating.Rating}");
+                }
+            }
+        }
     }
 }

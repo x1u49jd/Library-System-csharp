@@ -145,6 +145,7 @@ namespace LibrarySystemApp
                 Console.WriteLine("7. Log out");
                 Console.WriteLine("8. Display book ratings");
                 Console.WriteLine("9. Rate Book");
+                Console.WriteLine("10. View Your Book Ratings");
                 Console.Write("Choose an option: ");
                 string choice = Console.ReadLine().Trim();
 
@@ -218,6 +219,10 @@ namespace LibrarySystemApp
                     library.AddBookRating(book, member, (BookRating.RatingScale)rating);
                     library.SaveBookRatingsToFile(bookRatingsFile);
                 }
+                else if (choice == "10")
+                {
+                    library.ListMemberBookRatings(member);
+                }
                 else
                 {
                     Console.WriteLine("Wrong option! Try Again!");
@@ -239,6 +244,7 @@ namespace LibrarySystemApp
                 Console.WriteLine("7. View Book Requests");
                 Console.WriteLine("8. Log out");
                 Console.WriteLine("9. Display book ratings");
+                Console.WriteLine("10. View Your Book Ratings");
                 Console.Write("Choose an option: ");
                 string choice = Console.ReadLine().Trim();
 
@@ -313,6 +319,10 @@ namespace LibrarySystemApp
                 else if (choice == "9")
                 {
                     library.ListAvarageBookRatings();
+                }
+                else if (choice == "10")
+                {
+                    library.ListMemberBookRatings(member);
                 }
                 else
                 {
