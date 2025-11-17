@@ -136,16 +136,17 @@ namespace LibrarySystemApp
             while (true)
             {
                 Console.WriteLine("\n--- Admin Menu ---");
+      
                 Console.WriteLine("1. List Books");
                 Console.WriteLine("2. Add Book");
                 Console.WriteLine("3. Remove Book");
                 Console.WriteLine("4. View Members");
                 Console.WriteLine("5. View Borrowed Books (Not Implemented)");
                 Console.WriteLine("6. View Book Requests");
-                Console.WriteLine("7. Log out");
-                Console.WriteLine("8. Display book ratings");
-                Console.WriteLine("9. Rate Book");
-                Console.WriteLine("10. View Your Book Ratings");
+                Console.WriteLine("7. View Avarage Book Ratings");
+
+                Console.WriteLine("8. Log out");
+
                 Console.Write("Choose an option: ");
                 string choice = Console.ReadLine().Trim();
 
@@ -198,30 +199,22 @@ namespace LibrarySystemApp
                 {
                     library.ListMembers();
                 }
+                else if (choice == "5")
+                {
+                    Console.WriteLine("Feature not implemented yet.");
+                }
                 else if (choice == "6")
                 {
                     library.ListBookRequests();
                 }
                 else if (choice == "7")
                 {
-                    Console.WriteLine("Logging out...");
-                    break;
+                    library.ListAvarageBookRatings();
                 }
                 else if (choice == "8")
                 {
-                    library.ListAvarageBookRatings();
-                }
-                else if (choice == "9")
-                {
-                    Book book = GetBookFromInput();
-                    Console.WriteLine("Rate Book 1 to 5:");
-                    int rating = int.Parse(Console.ReadLine());
-                    library.AddBookRating(book, member, (BookRating.RatingScale)rating);
-                    library.SaveBookRatingsToFile(bookRatingsFile);
-                }
-                else if (choice == "10")
-                {
-                    library.ListMemberBookRatings(member);
+                    Console.WriteLine("Logging out...");
+                    break;
                 }
                 else
                 {
@@ -235,16 +228,20 @@ namespace LibrarySystemApp
             while (true)
             {
                 Console.WriteLine("\n--- Member Menu ---");
+
                 Console.WriteLine("1. List Books");
                 Console.WriteLine("2. Borrow Book (Not Implemented)");
                 Console.WriteLine("3. Return Book (Not Implemented)");
-                Console.WriteLine("4. View Borrowed Books (Not Implemented)");
-                Console.WriteLine("5. Rate Book (Not Implemented)");
-                Console.WriteLine("6. Request Book");
-                Console.WriteLine("7. View Book Requests");
-                Console.WriteLine("8. Log out");
-                Console.WriteLine("9. Display book ratings");
-                Console.WriteLine("10. View Your Book Ratings");
+                Console.WriteLine("4. Request Book (Not Implemented)");
+                Console.WriteLine("5. Rate Book");
+
+                Console.WriteLine("6. Borrowed Books");
+                Console.WriteLine("7. All Book Requests");
+                Console.WriteLine("8. Avarage Book Ratings");
+                Console.WriteLine("9. Your Book Ratings");
+
+                Console.WriteLine("10. Log out");
+
                 Console.Write("Choose an option: ");
                 string choice = Console.ReadLine().Trim();
 
@@ -289,7 +286,10 @@ namespace LibrarySystemApp
                 }
                 else if (choice == "4")
                 {
-                    Console.WriteLine("Feature not implemented yet.");
+                    Book book = GetBookFromInput();
+                    library.AddBookRequest(book, member);
+                    library.SaveBookRequestsToFile(bookRequestsFile);
+                    Console.WriteLine("Successfully added book request!");
                 }
                 else if (choice == "5")
                 {
@@ -301,30 +301,26 @@ namespace LibrarySystemApp
                 }
                 else if (choice == "6")
                 {
-                    Book book = GetBookFromInput();
-                    library.AddBookRequest(book, member);
-                    library.SaveBookRequestsToFile(bookRequestsFile);
-                    Console.WriteLine("Successfully added book request!");
+                    Console.WriteLine("Feature not implemented yet.");
                 }
                 else if (choice == "7")
                 {
                     library.ListBookRequests();
-                    Console.WriteLine("Presented books requests.");
                 }
                 else if (choice == "8")
+                {
+                    library.ListAvarageBookRatings();
+                }
+                else if (choice == "9")
+                {
+                    library.ListMemberBookRatings(member);
+                }
+                else if (choice == "10")
                 {
                     Console.WriteLine("Logging out...");
                     break;
                 }
-                else if (choice == "9")
-                {
-                    library.ListAvarageBookRatings();
-                }
-                else if (choice == "10")
-                {
-                    library.ListMemberBookRatings(member);
-                }
-                else
+                 else
                 {
                     Console.WriteLine("Wrong option! Try Again!");
                 }
